@@ -1,0 +1,78 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.hal.simulation.AnalogOutDataJNI;
+import edu.wpi.first.wpilibj.AnalogInput;
+
+public class AMPRoller extends SubsystemBase {
+  /** Creates a new Actuators. */
+  
+
+  public CANSparkMax AMP_Motor = new CANSparkMax(Constants.Amp_ID, MotorType.kBrushless);
+  public RelativeEncoder Encoder;
+  public DigitalInput LightSensor = new DigitalInput(Constants.ShooterLightSensor);
+  
+  public DART() {
+
+    super();
+
+    AMP_Motor.restoreFactoryDefaults();
+    AMP_Motor.setOpenLoopRampRate(Constants.kOpenLoopRampRate);
+    AMP_Motor.setInverted(false);
+    AMP_Motor.setIdleMode(IdleMode.kBrake);
+    AMP_Motor.setSmartCurrentLimit(60);
+    Encoder = AMP_Motor.getEncoder();
+
+    
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+
+  }
+
+  public void RollF() {
+    AMP_Motor.set(Speed);
+  }
+
+  public void RollB() {
+    AMP_Motor.set(-Speed);
+  }
+
+  public void Stop() {
+    AMP_Motor.set(0);
+  }
+
+  public boolean GotNote() {
+    if(LightSensor.get()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean IsRunning() {
+    Roller = AMP_Motor.get()
+    if (math.abs(Roller) > 0 )
+      return true;
+    else {
+      return false;
+    }
+  }
+
+}
+
+
